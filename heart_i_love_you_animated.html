@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+<style>
+    html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: black;
+    }
+
+    canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
+</head>
+
+<body>
+<canvas id="heart"></canvas>
+
+<script>
+const canvas = document.getElementById("heart");
+const ctx = canvas.getContext("2d");
+
+let w, h, cx, cy, scale;
+let i = 0;
+let pauseStart = 0;
+let waiting = false;
+let pulseStart = 0;
+
+const colors = [
+    "#ff1744", "#2979ff", "#00e676",
+    "#ffea00", "#00e5ff", "#d500f9",
+    "#ff9100", "#ff80ab"
+];
+
+function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    w = window.innerWidth;
+    h = window.innerHeight;
+
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    cx = w / 2;
+    cy = h / 2 - 35;
+    scale = Math.min(w, h) / 34;
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+function heartPoint(angle) {
+    return {
+        x: 16 * Math.pow(Math.sin(angle), 3),
+        y: (
+            13 * Math.cos(angle)
+            - 5 * Math.cos(2 * angle)
+            - 2 * Math.cos(3 * angle)
+            - Math.cos(4 * angle)
+        )
+    };
+}
+
+function drawOneLine(index) {
+    const angle = index * (Math.PI * 2) / 120;
+    const p = heartPoint(angle);
+
+    const x = cx + p.x * scale;
+    const y = cy - p.y * scale;
+
+    const color = colors[index % colors.length];
+
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.shadowBlur = 14;
+    ctx.shadowColor = color;
+
+    // Original center-to-heart line
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - scale * 0.8);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    // Original 8 small rays
+    for (let j = 0; j < 8; j++) {
+        const a = j * Math.PI / 4;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(
+            x + Math.cos(a) * 6,
+            y + Math.sin(a) * 6
+        );
+        ctx.stroke();
+    }
+
+    ctx.restore();
+}
+
+function drawMessage(time) {
+    const elapsed = time - pulseStart;
+
+    // Gentle heartbeat pulse
+    const pulse = 1 + Math.sin(elapsed / 180) * 0.025;
+
+    ctx.save();
+    ctx.translate(cx, cy + scale * 16);
+    ctx.scale(pulse, pulse);
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.font = "bold " + Math.max(22, Math.min(34, w / 11)) + "px Arial";
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = "#ff1744";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("I Love You ❤️", 0, 0);
+
+    ctx.restore();
+}
+
+function drawFloatingHearts(time) {
+    // Small hearts gently floating around the main heart
+    const elapsed = (time - pulseStart) / 1000;
+
+    for (let n = 0; n < 12; n++) {
+        const a = n * Math.PI * 2 / 12;
+        const radius = Math.min(w, h) * 0.27;
+        const x = cx + Math.cos(a + elapsed * 0.18) * radius;
+        const y = cy + Math.sin(a + elapsed * 0.18) * radius;
+
+        ctx.save();
+        ctx.globalAlpha = 0.45;
+        ctx.font = "18px Arial";
+        ctx.textAlign = "center";
+        ctx.fillStyle = colors[n % colors.length];
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = colors[n % colors.length];
+        ctx.fillText("♥", x, y);
+        ctx.restore();
+    }
+}
+
+function animate(time) {
+
+    // Build the heart one original line at a time
+    if (i < 120) {
+        drawOneLine(i);
+        i++;
+
+        setTimeout(() => requestAnimationFrame(animate), 12);
+        return;
+    }
+
+    // Once complete, show message + floating hearts
+    if (!waiting) {
+        waiting = true;
+        pauseStart = time;
+        pulseStart = time;
+    }
+
+    drawFloatingHearts(time);
+    drawMessage(time);
+
+    // Restart after 4 seconds
+    if (time - pauseStart >= 4000) {
+        ctx.clearRect(0, 0, w, h);
+        i = 0;
+        waiting = false;
+    }
+
+    requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
