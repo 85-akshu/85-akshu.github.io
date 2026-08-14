@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    font-family:Georgia,"Times New Roman",serif;
+    background:#eee4d2;
+    color:#3b2730;
+}
+
+.screen{
+    position:fixed;
+    inset:0;
+    display:none;
+    overflow:hidden;
+}
+
+.screen.show{
+    display:flex;
+}
+
+
+/* =====================================================
+   COMMON BUTTON
+===================================================== */
+
+.btn{
+    border:1px solid rgba(75,48,40,.35);
+    background:rgba(255,255,255,.55);
+    color:#4b3028;
+    padding:13px 25px;
+    border-radius:40px;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:3px;
+    font-weight:bold;
+    box-shadow:0 8px 25px rgba(60,35,25,.12);
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+#start{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+
+    background:
+    radial-gradient(circle at 50% 40%,
+        #fff8ed 0%,
+        #ead6bd 48%,
+        #b58b68 100%);
+}
+
+.startPaper{
+    width:min(84vw,430px);
+    padding:48px 25px;
+    background:rgba(255,250,238,.78);
+    border:1px solid rgba(90,60,45,.18);
+    box-shadow:0 20px 70px rgba(60,35,20,.22);
+}
+
+.startSmall{
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:5px;
+    opacity:.65;
+    margin-bottom:24px;
+}
+
+.startTitle{
+    font-size:42px;
+    line-height:1.05;
+    font-style:italic;
+    margin-bottom:25px;
+}
+
+.startHeart{
+    font-size:78px;
+    filter:drop-shadow(0 0 25px rgba(180,60,70,.45));
+    animation:heartbeat 1.4s infinite;
+    margin-bottom:28px;
+}
+
+@keyframes heartbeat{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.12)}
+}
+
+.startHint{
+    margin-top:18px;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:3px;
+    opacity:.55;
+}
+
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+#countdown{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background:#f3eadc;
+}
+
+.countNumber{
+    font-family:Georgia,serif;
+    font-size:clamp(100px,28vw,180px);
+    color:#8d5147;
+    text-shadow:0 10px 30px rgba(100,55,40,.15);
+    animation:countPop .9s ease forwards;
+}
+
+@keyframes countPop{
+    0%{
+        opacity:0;
+        transform:scale(1.8);
+    }
+    60%{
+        opacity:1;
+        transform:scale(.95);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+
+/* =====================================================
+   BIRTHDAY
+===================================================== */
+
+#birthday{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+
+    background:
+    radial-gradient(circle at center,
+        #fff8ec,
+        #ead6c0 65%,
+        #bd9675);
+}
+
+.bSmall{
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:6px;
+    opacity:.65;
+}
+
+.bBig{
+    margin-top:18px;
+    font-size:clamp(45px,14vw,90px);
+    line-height:.95;
+    font-style:italic;
+    color:#8c4d43;
+    text-shadow:0 8px 30px rgba(100,50,40,.15);
+}
+
+.bSub{
+    margin-top:25px;
+    font-size:17px;
+    letter-spacing:2px;
+}
+
+.bDecor{
+    margin-top:25px;
+    font-size:25px;
+}
+
+
+/* =====================================================
+   PHOTO REEL
+===================================================== */
+
+#gallery{
+    align-items:center;
+    justify-content:center;
+    background:#e9dac6;
+}
+
+.galleryBG{
+    position:absolute;
+    inset:0;
+
+    background:
+    radial-gradient(circle at 50% 30%,
+        #fff9ef,
+        #ead8c0 55%,
+        #c29d7c);
+
+    z-index:0;
+}
+
+.paperTexture{
+    position:absolute;
+    inset:0;
+    opacity:.22;
+    background-image:
+    radial-gradient(#7e5b47 0.5px,transparent .5px);
+    background-size:8px 8px;
+    z-index:1;
+}
+
+.photoWrap{
+    position:relative;
+    z-index:4;
+
+    width:100vw;
+    height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:22px;
+}
+
+#photo{
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    display:block;
+
+    opacity:0;
+
+    filter:
+    drop-shadow(0 18px 45px rgba(45,25,15,.3));
+
+    transition:
+    opacity .8s ease,
+    transform 5s ease;
+}
+
+#photo.visible{
+    opacity:1;
+    transform:scale(1);
+}
+
+.photoCounter{
+    position:absolute;
+    top:22px;
+    left:50%;
+    transform:translateX(-50%);
+
+    z-index:8;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    background:rgba(255,250,240,.72);
+
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:3px;
+
+    color:#604438;
+}
+
+.photoCaption{
+    position:absolute;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+
+    z-index:8;
+
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:4px;
+
+    color:#4b3028;
+
+    background:rgba(255,250,240,.72);
+
+    padding:9px 17px;
+    border-radius:30px;
+}
+
+.reelLine{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:10px;
+    height:2px;
+    background:rgba(80,50,40,.15);
+    z-index:9;
+}
+
+.reelProgress{
+    width:0%;
+    height:100%;
+    background:#9b5b50;
+    transition:width linear;
+}
+
+
+/* =====================================================
+   LETTER INTRO
+===================================================== */
+
+#letterIntro{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+
+    background:
+    radial-gradient(circle,
+        #fff8eb,
+        #e8d2b9 75%);
+}
+
+.letterTitle{
+    font-size:35px;
+    font-style:italic;
+    margin-bottom:30px;
+}
+
+.envelope{
+    width:min(70vw,300px);
+    aspect-ratio:1.35;
+    position:relative;
+    cursor:pointer;
+
+    filter:drop-shadow(0 18px 30px rgba(60,35,20,.2));
+
+    animation:floatEnvelope 2.2s ease-in-out infinite;
+}
+
+@keyframes floatEnvelope{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+}
+
+.envBack{
+    position:absolute;
+    inset:0;
+    background:#c99e77;
+    border-radius:5px;
+}
+
+.envPaper{
+    position:absolute;
+    width:72%;
+    height:75%;
+    left:14%;
+    top:-13%;
+    background:#fff9ec;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.envHeart{
+    position:absolute;
+    left:50%;
+    top:43%;
+    transform:translate(-50%,-50%);
+    font-size:48px;
+    z-index:5;
+}
+
+.envFlap{
+    position:absolute;
+    inset:0;
+    background:#dfc19e;
+    clip-path:polygon(0 0,50% 53%,100% 0);
+    z-index:4;
+}
+
+.letterHint{
+    margin-top:28px;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:4px;
+    opacity:.6;
+}
+
+
+/* =====================================================
+   LETTER
+===================================================== */
+
+#letter{
+    align-items:center;
+    justify-content:center;
+
+    background:#eee0c9;
+    padding:25px;
+}
+
+.letterPaper{
+    width:min(91vw,620px);
+    max-height:88vh;
+    overflow:auto;
+
+    padding:40px 28px;
+
+    background:
+    linear-gradient(135deg,#fffaf0,#f5e7cf);
+
+    border:1px solid rgba(80,50,35,.2);
+
+    box-shadow:
+    0 25px 80px rgba(50,30,20,.25);
+
+    text-align:center;
+}
+
+.gifted{
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:4px;
+    opacity:.55;
+    margin-bottom:22px;
+}
+
+.letterHeading{
+    font-size:34px;
+    font-style:italic;
+    color:#8d5047;
+    margin-bottom:25px;
+}
+
+.letterText{
+    font-size:18px;
+    line-height:1.75;
+    color:#4a3030;
+}
+
+.letterBtn{
+    margin-top:28px;
+}
+
+
+/* =====================================================
+   MESSAGE PAGES
+===================================================== */
+
+#pages{
+    align-items:center;
+    justify-content:center;
+    padding:22px;
+
+    background:
+    radial-gradient(circle,
+        #fff9ed,
+        #e6d1b7);
+}
+
+.page{
+    width:min(91vw,600px);
+    min-height:min(75vh,600px);
+
+    padding:40px 27px;
+
+    display:none;
+
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+
+    background:
+    linear-gradient(145deg,
+        rgba(255,252,244,.94),
+        rgba(245,231,208,.94));
+
+    border:1px solid rgba(80,50,35,.15);
+
+    box-shadow:
+    0 25px 80px rgba(60,35,20,.2);
+}
+
+.page.active{
+    display:flex;
+    animation:pageIn .8s ease;
+}
+
+@keyframes pageIn{
+    from{
+        opacity:0;
+        transform:translateX(35px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+.pageNumber{
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:4px;
+    opacity:.45;
+    margin-bottom:28px;
+}
+
+.pageText{
+    font-size:clamp(18px,4.8vw,27px);
+    line-height:1.7;
+}
+
+.next{
+    margin-top:32px;
+    align-self:center;
+
+    padding:12px 22px;
+
+    border:1px solid rgba(80,50,35,.25);
+    border-radius:30px;
+
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:3px;
+
+    background:rgba(255,255,255,.5);
+}
+
+.moon{
+    font-size:60px;
+    margin-bottom:18px;
+}
+
+
+/* =====================================================
+   GIFT
+===================================================== */
+
+#giftPage{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+
+    background:
+    radial-gradient(circle,
+        #fff5e6,
+        #e4c8ad);
+}
+
+.giftTitle{
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:5px;
+    opacity:.6;
+    margin-bottom:28px;
+}
+
+.gift{
+    font-size:105px;
+    cursor:pointer;
+
+    filter:drop-shadow(0 15px 30px rgba(120,50,40,.25));
+
+    animation:giftPulse 1.5s infinite;
+}
+
+@keyframes giftPulse{
+    0%,100%{transform:scale(1) rotate(0)}
+    50%{transform:scale(1.1) rotate(-2deg)}
+}
+
+.giftText{
+    margin-top:25px;
+    font-size:18px;
+    opacity:.75;
+}
+
+
+/* =====================================================
+   SURPRISE
+===================================================== */
+
+#surprise{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+
+    background:
+    radial-gradient(circle at center,
+        #ffdcca,
+        #d99a7b 55%,
+        #704538);
+}
+
+.surpriseBox{
+    animation:surpriseIn 1.4s ease forwards;
+}
+
+@keyframes surpriseIn{
+    from{
+        opacity:0;
+        transform:scale(.4) rotate(-8deg);
+    }
+    to{
+        opacity:1;
+        transform:scale(1) rotate(0);
+    }
+}
+
+.surpriseTitle{
+    font-size:clamp(50px,14vw,85px);
+    font-style:italic;
+    color:white;
+    text-shadow:0 8px 30px rgba(80,30,20,.3);
+}
+
+.surpriseSub{
+    color:white;
+    font-size:19px;
+    line-height:1.6;
+    margin-top:10px;
+}
+
+.confetti{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#fff;
+    animation:confettiFall 3s linear infinite;
+}
+
+@keyframes confettiFall{
+    from{
+        transform:translateY(-20px) rotate(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
+}
+
+
+/* =====================================================
+   FINAL HEART
+===================================================== */
+
+#final{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+
+    /* COMPLETELY DIFFERENT FINAL BACKGROUND */
+    background:
+    radial-gradient(
+        circle at 50% 45%,
+        #4d163e 0%,
+        #24102e 35%,
+        #090719 72%,
+        #020207 100%
+    );
+}
+
+.finalStars{
+    position:absolute;
+    inset:0;
+
+    background:
+    radial-gradient(circle at 20% 20%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 70% 15%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 40% 75%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 85% 65%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 15% 80%,#fff 0 1px,transparent 2px);
+
+    background-size:140px 140px;
+    opacity:.5;
+}
+
+.finalHeart{
+    position:relative;
+    z-index:3;
+
+    font-size:130px;
+
+    opacity:0;
+    transform:scale(.2);
+
+    filter:
+    drop-shadow(0 0 18px #ff4f91)
+    drop-shadow(0 0 60px #ff277c);
+}
+
+.finalHeart.show{
+    animation:
+    finalHeartIn 1.8s forwards,
+    heartGlow 2s 1.8s infinite alternate;
+}
+
+@keyframes finalHeartIn{
+    0%{
+        opacity:0;
+        transform:scale(.2);
+        filter:blur(15px);
+    }
+
+    65%{
+        opacity:1;
+        transform:scale(1.2);
+        filter:blur(0);
+    }
+
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes heartGlow{
+    from{
+        filter:
+        drop-shadow(0 0 18px #ff4f91)
+        drop-shadow(0 0 50px #ff277c);
+    }
+    to{
+        filter:
+        drop-shadow(0 0 35px #ff4f91)
+        drop-shadow(0 0 100px #ff277c)
+        drop-shadow(0 0 150px #ff277c);
+    }
+}
+
+.finalTitle{
+    position:relative;
+    z-index:3;
+
+    margin-top:22px;
+
+    color:white;
+
+    font-size:clamp(25px,7vw,43px);
+    line-height:1.3;
+
+    opacity:0;
+
+    animation:finalText 1.5s 1.3s forwards;
+}
+
+.finalSub{
+    position:relative;
+    z-index:3;
+
+    margin-top:18px;
+
+    color:#ffd5e5;
+
+    font-size:17px;
+    letter-spacing:2px;
+
+    opacity:0;
+
+    animation:finalText 1.5s 2s forwards;
+}
+
+.finalSign{
+    position:relative;
+    z-index:3;
+
+    margin-top:35px;
+
+    color:white;
+
+    font-style:italic;
+    font-size:22px;
+
+    opacity:0;
+
+    animation:finalText 1.5s 2.5s forwards;
+}
+
+@keyframes finalText{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.floatHeart{
+    position:absolute;
+    z-index:2;
+    color:#ff78ac;
+    opacity:0;
+
+    animation:floatHeart 5s linear forwards;
+}
+
+@keyframes floatHeart{
+    0%{
+        opacity:0;
+        transform:translateY(30px) scale(.5);
+    }
+    15%{opacity:.8}
+    100%{
+        opacity:0;
+        transform:translateY(-110vh) scale(1.4) rotate(25deg);
+    }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+    .startTitle{
+        font-size:36px;
+    }
+
+    .letterPaper{
+        padding:32px 21px;
+    }
+
+    .letterText{
+        font-size:16px;
+    }
+
+    .page{
+        min-height:74vh;
+        padding:32px 22px;
+    }
+
+    .pageText{
+        font-size:18px;
+    }
+
+    .photoWrap{
+        padding:10px;
+    }
+
+    .photoCounter{
+        top:14px;
+    }
+
+    .photoCaption{
+        bottom:17px;
+        font-size:8px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- MUSIC -->
+<audio id="music" src="birthday.mp3" loop preload="auto"></audio>
+
+
+<!-- =====================================================
+     START
+===================================================== -->
+
+<section id="start" class="screen show">
+
+    <div class="startPaper">
+
+        <div class="startSmall">
+            I MADE SOMETHING FOR YOU
+        </div>
+
+        <div class="startTitle">
+            For you,<br>
+            pretty girl ❤️
+        </div>
+
+        <div class="startHeart">
+            ❤️
+        </div>
+
+        <button class="btn" id="startBtn">
+            TAP ANYWHERE TO BEGIN
+        </button>
+
+        <div class="startHint">
+            something special is waiting for you
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     COUNTDOWN
+===================================================== -->
+
+<section id="countdown" class="screen">
+
+    <div class="countNumber" id="countNumber">
+        3
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BIRTHDAY
+===================================================== -->
+
+<section id="birthday" class="screen">
+
+    <div class="bSmall">
+        TODAY IS ALL ABOUT YOU
+    </div>
+
+    <div class="bBig">
+        Happy<br>Birthday
+    </div>
+
+    <div class="bSub">
+        ✨ today is your day, pretty girl ✨
+    </div>
+
+    <div class="bDecor">
+        ♡
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PHOTO REEL
+===================================================== -->
+
+<section id="gallery" class="screen">
+
+    <div class="galleryBG"></div>
+    <div class="paperTexture"></div>
+
+    <div class="photoWrap">
+
+        <img id="photo" src="" alt="Memory">
+
+        <div class="photoCounter">
+            MEMORY <span id="photoNumber">01</span> / 22
+        </div>
+
+        <div class="photoCaption">
+            EACH PHOTO IS A MEMORY... EACH MEMORY IS YOU ❤️
+        </div>
+
+    </div>
+
+    <div class="reelLine">
+        <div class="reelProgress" id="reelProgress"></div>
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LETTER INTRO
+===================================================== -->
+
+<section id="letterIntro" class="screen">
+
+    <div class="letterTitle">
+        A little letter<br>for you ❤️
+    </div>
+
+    <div class="envelope" id="envelope">
+
+        <div class="envBack"></div>
+        <div class="envPaper"></div>
+
+        <div class="envHeart">
+            ❤️
+        </div>
+
+        <div class="envFlap"></div>
+
+    </div>
+
+    <div class="letterHint">
+        TAP TO OPEN
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LETTER
+===================================================== -->
+
+<section id="letter" class="screen">
+
+    <div class="letterPaper">
+
+        <div class="gifted">
+            GIFTED FROM AKSHU ❤️
+        </div>
+
+        <div class="letterHeading">
+            Birthday wishes for you 🌷
+        </div>
+
+        <div class="letterText">
+
+            May you always have reasons to smile. ✨
+
+            <br><br>
+
+            May every dream you carry quietly
+            come true. 🌷
+
+            <br><br>
+
+            May you be surrounded by people
+            who truly value your heart.
+
+            <br><br>
+
+            And may this year give you more
+            happiness than you ever expected. 🫶🏻
+
+            <br><br>
+
+            Happy Birthday, pretty girl. ❤️
+
+        </div>
+
+        <button class="btn letterBtn" id="letterBtn">
+            OPEN MY HEART →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MESSAGE PAGES
+===================================================== -->
+
+<section id="pages" class="screen">
+
+
+    <div class="page active">
+
+        <div class="pageNumber">
+            01 / 08
+        </div>
+
+        <div class="pageText">
+
+            Happiest birthday to the one and only
+            favourite person in my life. ❤️✨
+
+        </div>
+
+        <div class="next">
+            TAP TO CONTINUE →
+        </div>
+
+    </div>
+
+
+    <div class="page">
+
+        <div class="pageNumber">
+            02 / 08
+        </div>
+
+        <div class="pageText">
+
+            You deserve every happiness
+            this world has to offer. 🌷
+
+            <br><br>
+
+            And I'm not saying that just because
+            today is your birthday...
+
+            <br><br>
+
+            I'm saying it because you truly
+            deserve it. 🫶🏻🤍
+
+        </div>
+
+        <div class="next">
+            TAP TO CONTINUE →
+        </div>
+
+    </div>
+
+
+    <div class="page">
+
+        <div class="pageNumber">
+            03 / 08
+        </div>
+
+        <div class="pageText">
+
+            I'll pray that everything you've ever
+            wished for finds its way to you. ✨
+
+            <br><br>
+
+            Even when you're not beside me,
+            your words somehow make me feel
+            like you are. 🥹❤️
+
+        </div>
+
+        <div class="next">
+            TAP TO CONTINUE →
+        </div>
+
+    </div>
+
+
+    <div class="page">
+
+        <div class="pageNumber">
+            04 / 08
+        </div>
+
+        <div class="pageText">
+
+            You've filled my life with happiness
+       in ways you probably don't even realise.
+
+            <br><br>
+
+            Your support and your positive words
+            always manage to surprise me. 🌷✨
+
+            <br><br>
+
+            I hope today gives you everything
+            you enjoy the most. ❤️
+
+        </div>
+
+        <div class="next">
+            TAP TO CONTINUE →
+        </div>
+
+    </div>
+
+
+    <div class="page">
+
+        <div class="pageNumber">
+            05 / 08
+        </div>
+
+        <div class="pageText">
+
+            <div class="moon">
+                🌙
+            </div>
+
+            I want to thank God for sending you
+            into this world.
+
+            <br><br>
+
+            Just like Krishna feels incomplete
+            without Radha...
+
+            <br><br>
+
+            sometimes this world feels
+            a little incomplete without you. 🤍
+
+        </div>
+
+        <div class="next">
+            TAP TO CONTINUE →
+        </div>
+
+    </div>
+
+
+    <div class="page">
+
+        <div class="pageNumber">
+            06 / 08
+        </div>
+
+        <div class="pageText">
+
+            Thank you for being someone
+            whose presence makes ordinary
+            moments feel a little more special. ❤️
+
+            <br><br>
+
+            You may not realise it,
+            but you matter more than you know.
+
+        </div>
+
+        <div class="next">
+            TAP TO CONTINUE →
+        </div>
+
+    </div>
+
+
+    <div class="page">
+
+        <div class="pageNumber">
+            07 / 08
+        </div>
+
+        <div class="pageText">
+
+            I don't know what the future holds...
+
+            <br><br>
+
+            but I genuinely hope it holds
+            countless beautiful moments
+            for you. ✨
+
+            <br><br>
+
+            Keep smiling.
+            Keep being you. 🌷
+
+        </div>
+
+        <div class="next">
+            TAP TO CONTINUE →
+        </div>
+
+    </div>
+
+
+    <div class="page">
+
+        <div class="pageNumber">
+            08 / 08
+        </div>
+
+        <div class="pageText">
+
+            And if you ever forget
+            how special you are...
+
+            <br><br>
+
+            come back to this little place. ❤️
+
+            <br><br>
+
+            Someone once took the time
+            to make all of this just for you.
+
+        </div>
+
+        <div class="next" id="toGift">
+            ONE LAST THING →
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GIFT
+===================================================== -->
+
+<section id="giftPage" class="screen">
+
+    <div class="giftTitle">
+        ONE LAST THING...
+    </div>
+
+    <div class="gift" id="gift">
+        🎁
+    </div>
+
+    <div class="giftText">
+        I kept one little surprise for you...
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SURPRISE
+===================================================== -->
+
+<section id="surprise" class="screen">
+
+    <div class="surpriseBox">
+
+        <div class="surpriseTitle">
+            SURPRISE! 🎉
+        </div>
+
+        <div class="surpriseSub">
+            Here's something<br>
+            just for you... ❤️
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FINAL
+===================================================== -->
+
+<section id="final" class="screen">
+
+    <div class="finalStars"></div>
+
+    <div class="finalHeart" id="finalHeart">
+        ❤️
+    </div>
+
+    <div class="finalTitle">
+        You are something<br>
+        very special to me.
+    </div>
+
+    <div class="finalSub">
+        Always & Forever ✨
+    </div>
+
+    <div class="finalSign">
+        — Akshu ❤️
+    </div>
+
+</section>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const screens = {
+    start: document.getElementById("start"),
+    countdown: document.getElementById("countdown"),
+    birthday: document.getElementById("birthday"),
+    gallery: document.getElementById("gallery"),
+    letterIntro: document.getElementById("letterIntro"),
+    letter: document.getElementById("letter"),
+    pages: document.getElementById("pages"),
+    giftPage: document.getElementById("giftPage"),
+    surprise: document.getElementById("surprise"),
+    final: document.getElementById("final")
+};
+
+const music = document.getElementById("music");
+
+const photo = document.getElementById("photo");
+const photoNumber = document.getElementById("photoNumber");
+const reelProgress = document.getElementById("reelProgress");
+
+let photoIndex = 1;
+let photoTimer = null;
+
+const PHOTO_TIME = 4800;
+
+
+/* =====================================================
+   SCREEN SWITCH
+===================================================== */
+
+function showScreen(name){
+
+    Object.values(screens).forEach(screen=>{
+        screen.classList.remove("show");
+    });
+
+    screens[name].classList.add("show");
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.getElementById("startBtn").addEventListener("click",()=>{
+
+    music.volume = 0.75;
+
+    music.play().catch(()=>{});
+
+    showScreen("countdown");
+
+    startCountdown();
+
+});
+
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+function startCountdown(){
+
+    const number = document.getElementById("countNumber");
+
+    let n = 3;
+
+    number.textContent = n;
+
+    const timer = setInterval(()=>{
+
+        n--;
+
+        if(n > 0){
+
+            number.textContent = n;
+
+            number.style.animation="none";
+
+            void number.offsetWidth;
+
+            number.style.animation="countPop .9s ease forwards";
+
+        }else{
+
+            clearInterval(timer);
+
+            showScreen("birthday");
+
+            setTimeout(()=>{
+
+                showScreen("gallery");
+
+                startGallery();
+
+            },4200);
+
+        }
+
+    },1000);
+
+}
+
+
+/* =====================================================
+   PHOTO LIST
+===================================================== */
+
+function getPhotoName(number){
+
+    return "photo" + number + ".jpg";
+
+}
+
+
+/* =====================================================
+   FULL SCREEN PHOTO REEL
+===================================================== */
+
+function startGallery(){
+
+    photoIndex = 1;
+
+    showPhoto(photoIndex);
+
+}
+
+
+function showPhoto(number){
+
+    clearTimeout(photoTimer);
+
+    photo.classList.remove("visible");
+
+    reelProgress.style.transition="none";
+    reelProgress.style.width="0%";
+
+    setTimeout(()=>{
+
+        const src = getPhotoName(number);
+
+        photo.src = src;
+
+        photoNumber.textContent =
+            String(number).padStart(2,"0");
+
+        photo.style.transform =
+            number % 2 === 0
+            ? "scale(1.08)"
+            : "scale(1.16)";
+
+        photo.onload = ()=>{
+
+            requestAnimationFrame(()=>{
+
+                photo.classList.add("visible");
+
+                reelProgress.style.transition =
+                    `width ${PHOTO_TIME}ms linear`;
+
+                reelProgress.style.width="100%";
+
+            });
+
+        };
+
+        /* In case image loads from cache */
+        if(photo.complete){
+
+            photo.classList.add("visible");
+
+            reelProgress.style.transition =
+                `width ${PHOTO_TIME}ms linear`;
+
+            reelProgress.style.width="100%";
+
+        }
+
+    },250);
+
+
+    photoTimer = setTimeout(()=>{
+
+        if(photoIndex < 22){
+
+            photoIndex++;
+
+            showPhoto(photoIndex);
+
+        }else{
+
+            finishGallery();
+
+        }
+
+    },PHOTO_TIME);
+
+}
+
+
+/* =====================================================
+   AFTER PHOTO 22
+===================================================== */
+
+function finishGallery(){
+
+    clearTimeout(photoTimer);
+
+    setTimeout(()=>{
+
+        showScreen("letterIntro");
+
+    },500);
+
+}
+
+
+/* =====================================================
+   ENVELOPE
+===================================================== */
+
+document.getElementById("envelope")
+.addEventListener("click",()=>{
+
+    showScreen("letter");
+
+});
+
+
+/* =====================================================
+   LETTER → MESSAGE PAGES
+===================================================== */
+
+document.getElementById("letterBtn")
+.addEventListener("click",()=>{
+
+    showScreen("pages");
+
+});
+
+
+/* =====================================================
+   MESSAGE PAGES
+===================================================== */
+
+const pages =
+document.querySelectorAll(".page");
+
+let currentPage = 0;
+
+pages.forEach((page,index)=>{
+
+    const next =
+    page.querySelector(".next");
+
+    next.addEventListener("click",()=>{
+
+        if(index < pages.length-1){
+
+            pages[currentPage]
+            .classList.remove("active");
+
+            currentPage++;
+
+            pages[currentPage]
+            .classList.add("active");
+
+        }else{
+
+            showScreen("giftPage");
+
+        }
+
+    });
+
+});
+
+
+/* =====================================================
+   GIFT
+===================================================== */
+
+document.getElementById("gift")
+.addEventListener("click",()=>{
+
+    showScreen("surprise");
+
+    makeConfetti();
+
+    setTimeout(()=>{
+
+        showFinal();
+
+    },3500);
+
+});
+
+
+/* =====================================================
+   CONFETTI
+===================================================== */
+
+function makeConfetti(){
+
+    for(let i=0;i<55;i++){
+
+        const c =
+        document.createElement("div");
+
+        c.className="confetti";
+
+        c.style.left =
+        Math.random()*100+"%";
+
+        c.style.top =
+        (-10-Math.random()*30)+"%";
+
+        c.style.animationDelay =
+        Math.random()*1.8+"s";
+
+        c.style.animationDuration =
+        (2.2+Math.random()*2)+"s";
+
+        document.getElementById("surprise")
+        .appendChild(c);
+
+        setTimeout(()=>{
+            c.remove();
+        },5000);
+
+    }
+
+}
+
+
+/* =====================================================
+   FINAL
+===================================================== */
+
+function showFinal(){
+
+    showScreen("final");
+
+    const heart =
+    document.getElementById("finalHeart");
+
+    heart.classList.remove("show");
+
+    void heart.offsetWidth;
+
+    heart.classList.add("show");
+
+    createFloatingHearts();
+
+}
+
+
+/* =====================================================
+   FLOATING HEARTS
+===================================================== */
+
+function createFloatingHearts(){
+
+    const final =
+    document.getElementById("final");
+
+    for(let i=0;i<25;i++){
+
+        setTimeout(()=>{
+
+            const heart =
+            document.createElement("div");
+
+            heart.className="floatHeart";
+
+            heart.textContent =
+                Math.random()>.5 ? "♡" : "♥";
+
+            heart.style.left =
+                Math.random()*100+"%";
+
+            heart.style.bottom =
+                (-20-Math.random()*20)+"px";
+
+            heart.style.fontSize =
+                (12+Math.random()*24)+"px";
+
+            heart.style.animationDuration =
+                (4+Math.random()*3)+"s";
+
+            final.appendChild(heart);
+
+            setTimeout(()=>{
+                heart.remove();
+            },7500);
+
+        },i*220);
+
+    }
+
+}
+
+
+/* =====================================================
+   PRELOAD ALL PHOTOS
+   ===================================================== */
+
+for(let i=1;i<=22;i++){
+
+    const img =
+    new Image();
+
+    img.src =
+    getPhotoName(i);
+
+}
+
+
+/* =====================================================
+   PREVENT DOUBLE TAP / LONG PRESS
+===================================================== */
+
+document.addEventListener("contextmenu",e=>{
+    e.preventDefault();
+});
+
+</script>
+
+</body>
+</html>
