@@ -1,502 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For You, Pretty Girl</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: #d7c4b7;
-      background-image: radial-gradient(#cbb4a4 1px, transparent 1px);
-      background-size: 20px 20px;
-      color: #5a4638;
-      font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .screen {
-      display: none;
-      width: 100%;
-      min-height: 100vh;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    /* CARD STYLE CONTAINER */
-    .card-box {
-      background: #f4ede4;
-      border: 1px solid #e2d5c7;
-      box-shadow: 0 10px 30px rgba(90, 70, 56, 0.15);
-      border-radius: 12px;
-      padding: 30px 20px;
-      max-width: 420px;
-      width: 90%;
-      position: relative;
-    }
-
-    .cursive {
-      font-family: 'Caveat', cursive;
-    }
-
-    /* SCREEN 1: START */
-    #start { display: flex; }
-    
-    .envelope-box {
-      background: #e6d7c8;
-      border: 2px dashed #c4b09e;
-      padding: 30px 20px;
-      border-radius: 8px;
-      margin-bottom: 25px;
-      position: relative;
-    }
-
-    .envelope-box h1 {
-      font-size: 3rem;
-      color: #7a5c48;
-      line-height: 1.1;
-    }
-
-    .heartTarget {
-      font-size: 2.5rem;
-      margin-top: 10px;
-      color: #aa6c5b;
-    }
-
-    .heartHit {
-      transform: scale(1.4);
-      transition: transform 0.3s ease;
-    }
-
-    #arrow {
-      font-size: 2rem;
-      position: absolute;
-      bottom: 10%;
-      transition: transform 1.5s ease-in-out;
-    }
-
-    .arrowGo {
-      transform: translateY(-280px);
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 24px;
-      background: #ffffff;
-      color: #7a5c48;
-      border: 1px solid #d4c3b3;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      font-weight: 500;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    /* SCREEN 2: COUNTDOWN */
-    #countdown { font-size: 5rem; font-weight: 600; color: #7a5c48; }
-
-    /* SCREEN 3: BIRTHDAY */
-    .bSmall { font-size: 0.85rem; letter-spacing: 2px; color: #8c7361; }
-    .bBig { font-size: 3.5rem; color: #aa6c5b; margin: 10px 0; }
-    .bSub { font-size: 0.95rem; color: #6e5848; }
-
-    /* SCREEN 4: GALLERY (POLAROID REEL) */
-    .polaroid {
-      background: #fff;
-      padding: 15px 15px 40px 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      border-radius: 4px;
-      transform: rotate(-2deg);
-      max-width: 320px;
-      width: 100%;
-    }
-    .polaroid img {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
-      border-radius: 2px;
-    }
-    .photoText {
-      margin-top: 15px;
-      font-size: 1.8rem;
-      color: #7a5c48;
-    }
-
-    /* SCREEN 5: DIARY */
-    .letter-preview {
-      background: #fff8f0;
-      border: 1px solid #ebdccb;
-      padding: 25px;
-      border-radius: 8px;
-    }
-
-    /* SCREEN 6: PAGES */
-    .page { display: none; flex-direction: column; align-items: center; }
-    .page.active { display: flex; }
-    .pageNumber { font-size: 0.85rem; color: #a38d7c; margin-bottom: 15px; }
-    .pageText { font-size: 1rem; line-height: 1.8; color: #5a4638; text-align: left; }
-    .pageText b { color: #8c4a38; }
-    .next { margin-top: 25px; color: #aa6c5b; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
-
-    /* SCREEN 7 & 8: GIFT & FINAL */
-    .gift { font-size: 5rem; cursor: pointer; margin: 20px 0; }
-    
-    .glow-heart {
-      width: 120px;
-      height: 120px;
-      border: 3px solid #ff7b7b;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 0 20px #ff7b7b, inset 0 0 20px #ff7b7b;
-      margin: 20px auto;
-    }
-    .glow-heart span { font-size: 3rem; }
-
-    /* SPARKS */
-    .spark {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #d4a373;
-      border-radius: 50%;
-      pointer-events: none;
-      top: 50%;
-      left: 50%;
-    }
-    .sparkGo { animation: floatParticle 1.5s linear forwards; }
-
-    @keyframes floatParticle {
-      from { transform: translate(0, 0) scale(0.5); opacity: 0; }
-      20% { opacity: 0.8; }
-      to { transform: translate(var(--x), var(--y)) scale(1.4); opacity: 0; }
-    }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>For you, pretty girl ♡</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:#1a1630;color:#4a3728;overflow-x:hidden}
+.screen{display:none;min-height:100vh;width:100vw;align-items:center;justify-content:center;flex-direction:column;padding:24px;text-align:center}
+.screen.active{display:flex;animation:fade.7s ease}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.bg{position:fixed;inset:0;z-index:-3;background:radial-gradient(120% 80% at 50% 0%,#4a356f 0%,#2a204a 30%,#191336 60%,#0f0c24 100%)}
+.clouds{position:fixed;inset:0;z-index:-2;opacity:.5;background:radial-gradient(ellipse at 20% 80%,#8a6fb5 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,#c48ec2 0%,transparent 50%)}
+.content{max-width:400px;width:100%;z-index:2}
+.hand{font-family:'Cormorant Garamond',serif;font-style:italic}
+.btn{margin-top:22px;padding:12px 28px;border-radius:26px;border:1px solid rgba(74,55,40,.25);background:rgba(255,250,240,.85);color:#4a3728;cursor:pointer;backdrop-filter:blur(6px);font-size:13px;transition:.3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.btnDark{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.14);color:#fff}
+.musicBtn{position:fixed;top:18px;right:18px;z-index:20;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.neonHeart{font-size:78px;color:transparent;-webkit-text-stroke:1.5px #ff9eb5;text-shadow:0 0 15px #ff9eb5,0 0 30px #ff6a8a;animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.paperCard{background:#fffaf0;padding:22px 20px;border-radius:3px;box-shadow:0 14px 40px rgba(0,0,0,.3);border:1px solid #e6d9c6;color:#4a3728}
+.string{width:100%;height:1px;background:linear-gradient(90deg,transparent,#d9c6a8,transparent);margin:12px 0 24px;position:relative}
+.clip{width:10px;height:18px;background:linear-gradient(#d9b896,#a6805a);position:absolute;top:-9px;border-radius:2px}
+.polaroid{background:#fffef7;padding:8px 8px 32px 8px;box-shadow:0 10px 28px rgba(0,0,0,.35);transform:rotate(-1.5deg);display:inline-block}
+.polaroid img{width:260px;height:340px;object-fit:cover;display:block}
+.cap{font-family:'Cormorant Garamond';font-style:italic;font-size:15px;color:#6b5a4a;margin-top:10px;line-height:1.3}
+.progress{width:100%;max-width:320px;height:2px;background:rgba(255,255,255,.18);margin:16px auto 0}
+.progressBar{height:100%;background:#ff9eb5;width:0%;transition:.4s}
+.heartOutline{width:300px;height:270px;position:relative;margin:auto;display:flex;align-items:center;justify-content:center}
+.heartOutline::before{content:'♡';font-size:340px;position:absolute;color:transparent;-webkit-text-stroke:1.5px #ff9eb5;text-shadow:0 0 20px #ff8ab0,0 0 50px #ff6a8a;line-height:1}
+.typewriter{border-right:2px solid #ffb7e0;animation:blink.7s infinite}
+@keyframes blink{0%,50%{border-color:#ffb7e0}51%,100%{border-color:transparent}}
+.count{font-family:'Cormorant Garamond';font-size:88px;color:#fff;line-height:1;opacity:0;transform:scale(.5);transition:.5s}
+.count.show{opacity:1;transform:scale(1.2)}
+.moon{width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff8d0 0%,#f5e7a0 40%,#e8d88a 100%);box-shadow:0 0 40px rgba(255,240,180,.6);position:relative;margin:auto}
+.moon::after{content:"";position:absolute;width:74px;height:74px;background:#2a204a;border-radius:50%;top:2px;right:-14px}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
+.floatHeart{position:fixed;bottom:-20px;animation:floatUp linear forwards;pointer-events:none;z-index:5;opacity:.8}
+@keyframes floatUp{0%{transform:translateY(0) translateX(0) scale(.8);opacity:0}15%{opacity:.9}100%{transform:translateY(-115vh) translateX(30px) scale(1.3);opacity:0}}
+.scratchWrap{position:relative;width:320px;height:300px;margin:18px auto;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.revealInner{position:absolute;inset:0;background:linear-gradient(135deg,#2a104d,#6a2fb8);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;color:#fff}
+#scratchCanvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;touch-action:none}
+</style>
 </head>
 <body>
+<canvas id="confetti"></canvas>
+<div class="bg"></div><div class="clouds"></div>
+<button class="musicBtn" id="musicBtn" onclick="toggleMusic()">♫</button>
 
-  <!-- MUSIC -->
-  <audio id="music" src="birthday.mp3" loop></audio>
+<div id="s1" class="screen active"><div class="content"><div class="moon"></div><div class="paperCard" style="margin-top:18px"><div class="hand" style="font-size:36px">For you,<br>pretty girl ♡</div></div><button class="btn btnDark" onclick="beginJourney()">TAP TO BEGIN ♡</button></div></div>
+<div id="s2" class="screen"><div class="content"><div class="hand" style="font-size:28px;color:#fff">Get ready...</div><div class="neonHeart" style="margin:16px 0">♡</div><p style="font-size:13px;color:#fff8">something special is waiting for you ♥</p><button class="btn btnDark" onclick="startCountdown()">NEXT →</button></div></div>
+<div id="s3" class="screen"><div class="content"><div id="countEl" class="count">3</div><div style="margin-top:30px;color:#fff8;font-size:12px;letter-spacing:2px" id="countText">Get ready...</div></div></div>
+<div id="s4" class="screen"><div class="content"><div class="paperCard"><div style="font-size:10px;letter-spacing:3px;opacity:.6">TODAY IS ALL ABOUT YOU</div><div class="hand" style="font-size:48px;color:#b85a6a;margin-top:8px;line-height:.95">Happy<br>Birthday</div></div><button class="btn btnDark" onclick="showGallery()">LET'S BEGIN →</button></div></div>
+<div id="gallery" class="screen"><div class="content" style="max-width:380px"><div class="paperCard" style="padding:12px"><div style="font-size:11px;letter-spacing:3px">♥ YOUR MEMORIES ♥</div></div><div class="string"><div class="clip" style="left:15%"></div><div class="clip" style="left:50%"></div><div class="clip" style="left:85%"></div></div><div style="display:flex;align-items:center;gap:10px;justify-content:center"><button onclick="prev()" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;cursor:pointer">‹</button><div class="polaroid" id="polaroidBox"><img id="photo" src="photos/photo1.jpg"><div class="cap" id="cap">a moment...</div></div><button onclick="next()" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;cursor:pointer">›</button></div><p style="margin-top:14px;color:#fff9;font-size:11px">Each photo is a memory... each memory is you ♥</p><div style="color:#fff9;font-size:11px;letter-spacing:2px;margin-top:10px"><span id="cur">01</span> / 22</div><div class="progress"><div id="bar" class="progressBar"></div></div><button class="btn btnDark" style="margin-top:14px" onclick="goToLetter()">NEXT → LETTER 💌</button></div></div>
+<div id="letterIntro" class="screen"><div class="content"><div class="paperCard"><div class="hand" style="font-size:32px">A little letter for you ♥</div><div style="font-size:50px">💌</div></div><button class="btn btnDark" onclick="showScreen('letter')">OPEN MY LETTER →</button></div></div>
+<div id="letter" class="screen"><div class="content"><div class="paperCard" style="text-align:left"><div style="font-size:10px;letter-spacing:2px">GIFTED FROM AKSHU ♥</div><div class="hand" style="font-size:24px;margin-top:6px">Birthday wishes for you 🌷</div><p style="font-size:13px;line-height:1.7;margin-top:10px">This one is written from my heart...</p><button class="btn" style="width:100%;margin-top:18px" onclick="startWishes()">READ MY WISHES →</button></div></div></div>
+<div id="pages" class="screen"><div class="content"><div class="paperCard" style="text-align:left"><div style="display:flex;justify-content:space-between;font-size:10px;opacity:.6"><span>WISHES</span><span id="pNo">PAGE 01 / 12</span></div><div id="pageMsg" style="margin-top:12px;min-height:140px;line-height:1.8;font-size:14px"></div><button class="btn" style="width:100%" onclick="nextWish()">TAP TO CONTINUE →</button></div></div></div>
+<div id="question" class="screen"><div class="content"><div class="paperCard"><div class="hand" style="font-size:36px;line-height:1.1">Are you ready to<br>see the surprise?</div><div style="display:flex;gap:12px;justify-content:center;margin-top:20px"><button class="btn" style="margin-top:0;padding:12px 36px;background:#f3c6d8" onclick="showScreen('gift')">YES ♡</button><button class="btn" id="noBtn" style="margin-top:0;padding:12px 36px" onclick="handleNo()">NO</button></div><div id="noMsg" class="hand" style="margin-top:16px;color:#b85a6a;font-size:18px;display:none">Arre aise kaise... dekho to sahi na 🥺👉👈</div></div></div></div>
+<div id="gift" class="screen"><div class="content"><div class="paperCard"><div style="font-size:10px;letter-spacing:3px">ONE LAST THING...</div><div style="font-size:70px">🎁</div></div><button class="btn btnDark" onclick="showScreen('final1')">OPEN YOUR GIFT →</button></div></div>
+<div id="final1" class="screen"><div class="content"><div class="paperCard"><div style="font-size:11px;letter-spacing:3px">SURPRISE!</div><div class="neonHeart" style="margin:12px 0">♡</div></div><button class="btn btnDark" onclick="openSurprise()">SEE SURPRISE →</button></div></div>
+<div id="surprise" class="screen"><div class="content"><div class="heartOutline"><div style="z-index:2;text-align:center"><p style="font-size:12px;letter-spacing:2px;color:#fff">YOU ARE</p><p style="font-size:16px;font-weight:500;color:#fff">SOMETHING VERY<br>SPECIAL TO ME. ❤️</p><div class="hand" style="font-size:22px;margin-top:8px;color:#ffb7d0">Always & Forever — Akshu</div></div></div><p style="margin-top:26px;color:#fff9;font-size:12px">I hope this little world made you smile today ♡</p><div style="margin-top:12px;font-size:20px;color:#ffb7d0"><span id="typed" class="typewriter"></span></div><button class="btn btnDark" onclick="showScreen('makeAWish')">NEXT → MAKE A WISH ✨</button></div></div>
+<div id="makeAWish" class="screen"><div class="content"><div class="paperCard"><div style="font-size:10px;letter-spacing:3px">FOR YOU</div><div class="hand" style="font-size:44px;color:#b85a6a;margin-top:6px">Make a Wish ✨</div><p style="font-size:13px;line-height:1.6;margin-top:12px">Today is all about you<br>Close your eyes and make your special wish<br>🌙</p><div style="font-size:50px;margin-top:10px">🎂✨</div><button class="btn" style="width:100%;margin-top:18px" onclick="makeAWishBlast()">BLOW YOUR CANDLES 🎂</button></div><button class="btn btnDark" style="margin-top:16px" onclick="showScreen('scratchCard')">NEXT → YOUR GIFT 🎁</button></div></div>
 
-  <!-- START -->
-  <div id="start" class="screen">
-    <div class="card-box">
-      <div class="envelope-box">
-        <h1 class="cursive">For you,<br>pretty girl</h1>
-        <div class="heartTarget" id="heartTarget">♡</div>
-      </div>
-      <div id="arrow">🏹</div>
-      <div class="btn" id="startButton">TAP ANYWHERE TO BEGIN</div>
-    </div>
-  </div>
+<div id="scratchCard" class="screen"><div class="content"><div class="paperCard"><div style="font-size:10px;letter-spacing:3px">🎁 GIFT SURPRISE</div><div class="hand" style="font-size:28px;margin-top:6px">Scratch to Reveal ♡</div><div class="scratchWrap"><div class="revealInner"><div class="hand" style="font-size:26px;line-height:1.25;color:#ffdcff">Please 🥺 continue<br>with me forever</div><p style="margin-top:12px;font-weight:600;font-size:16px">Thank you, I love you! 🥺💗🫶</p><div style="font-size:32px;margin-top:10px">🎁✨</div><p style="margin-top:8px;font-size:11px;letter-spacing:1px;color:#ffb8ff">Reward Unlocked: Forever Bond 💜</p></div><canvas id="scratchCanvas" width="320" height="300"></canvas></div><p style="font-size:11px;margin-top:10px;opacity:.7"><span id="scratchPct">0% scratched • Scratch karo</span></p><button class="btn" id="claimBtn" style="display:none;width:100%" onclick="claimGift()">Claim & Continue 💜</button></div></div></div>
 
-  <!-- COUNTDOWN -->
-  <div id="countdown" class="screen">
-    <div class="card-box">
-      <div id="countNum" class="cursive" style="font-size: 6rem; color: #7a5c48;">3</div>
-    </div>
-  </div>
+<audio id="music" loop><source src="birthday.mp3" type="audio/mpeg"></audio>
+<script>
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active'); if(id==='scratchCard') initScratch();}
+const music=document.getElementById('music');let playing=false;
+function beginJourney(){showScreen('s2');music.play().then(()=>{playing=true;document.getElementById('musicBtn').innerText='⏸'}).catch(()=>{})}
+function toggleMusic(){const btn=document.getElementById('musicBtn');if(playing){music.pause();playing=false;btn.innerText='♫'}else{music.play().then(()=>{playing=true;btn.innerText='⏸'}).catch(()=>{})}}
+function startCountdown(){showScreen('s3');let n=3;const el=document.getElementById('countEl');const txt=document.getElementById('countText');el.innerText=n;el.classList.add('show');const iv=setInterval(()=>{el.classList.remove('show');setTimeout(()=>{n--;if(n>0){el.innerText=n;el.classList.add('show');txt.innerText=n==2?"Almost there...":n==1?"Here we go...":""}else if(n==0){el.innerText="♡";el.classList.add('show');txt.innerText="Happy Birthday!";clearInterval(iv);setTimeout(()=>showScreen('s4'),1200)}},200)},900)}
+function handleNo(){document.getElementById('noMsg').style.display='block'}
+const photos=[{src:"photos/photo1.jpg",cap:"My favorite place is anywhere with you ♡"},{src:"photos/photo2.jpg",cap:"Some moments are simple, but special ☁️"},{src:"photos/photo3.jpg",cap:"A beautiful little moment 🌷"},{src:"photos/photo4.jpg",cap:"A memory I'll always smile about ♡"},{src:"photos/photo5.jpg",cap:"Moments worth remembering again ✨"},{src:"photos/photo6.jpg",cap:"Quietly became my favourite 🦋"},{src:"photos/photo7.jpg",cap:"Little moments, big feelings 🤍"},{src:"photos/photo8.jpg",cap:"This one deserves a place ☁️♡"},{src:"photos/photo9.jpg",cap:"A picture, a moment, a memory 🌙"},{src:"photos/photo10.jpg",cap:"No words needed, just special ♡"},{src:"photos/photo11.jpg",cap:"A piece of our story ✨"},{src:"photos/photo12.jpg",cap:"Forever in my favourites 🌷"},{src:"photos/photo13.jpg",cap:"Still makes me smile ♡"},{src:"photos/photo14.jpg",cap:"Precious without trying ☁️"},{src:"photos/photo15.jpg",cap:"Small moment, big memory 🦋"},{src:"photos/photo16.jpg",cap:"Keeping this safe right here ❤️"},{src:"photos/photo17.jpg",cap:"Every picture has a story ✨"},{src:"photos/photo18.jpg",cap:"Another page to remember 🌙"},{src:"photos/photo19.jpg",cap:"Special just because it happened ♡"},{src:"photos/photo20.jpg",cap:"Deserves a forever place ☁️"},{src:"photos/photo21.jpg",cap:"Happy to have this one 🌷"},{src:"photos/photo22.jpg",cap:"Last memory, not the end ❤️"}];
+let cur=0; let autoSlide=null;
+function showGallery(){cur=0;showScreen('gallery');upd();clearInterval(autoSlide);autoSlide=setInterval(()=>{cur++; if(cur>=photos.length) cur=0; upd();},2000);}
+function goToLetter(){clearInterval(autoSlide); showScreen('letterIntro');}
+function upd(){const img=document.getElementById('photo');const list=[photos[cur].src, photos[cur].src.replace('photos/',''), `photo${cur+1}.jpg`];let k=0; function tryN(){ if(k>=list.length) return; img.onerror=()=>{k++; tryN();}; img.src=list[k]; } tryN();document.getElementById('cap').innerText=photos[cur].cap;document.getElementById('cur').innerText=String(cur+1).padStart(2,'0');document.getElementById('bar').style.width=((cur+1)/22*100)+'%';}
+function next(){clearInterval(autoSlide);cur++; if(cur>=photos.length){goToLetter();return;} upd(); autoSlide=setInterval(()=>{cur++; if(cur>=photos.length) cur=0; upd();},2000);}
+function prev(){clearInterval(autoSlide);cur--; if(cur<0) cur=photos.length-1; upd(); autoSlide=setInterval(()=>{cur++; if(cur>=photos.length) cur=0; upd();},2000);}
+const wishes=["Happiest birthday to the one and only favourite person in my life... ❤️✨","You deserve all the happiness in this world. I'm not saying this just because it's your birthday, I'm saying it because you are truly worthy of it. 🌷🤍","And yes, I will pray that whatever you have wished for, you truly get it... 🥺❤️","Even when you are not around, your words make me feel like you are right here. You have filled my life with happiness. ✨","Your support and your positive words always amaze me.","I wish that today you get everything that you enjoy the most. Wishing you a day filled with love, laughter and happiness... 🌷","And today I want to say thank you to God for sending you to this earth. 🤍","Just like Krishna is incomplete without Radha, this world feels incomplete without you. Thank you for coming into my life. ❤️","Without you, this world would feel as boring as a song without a melody...","I'm sorry I couldn't get you a gift this time, but one day I will give you a gift that you will never forget. 🎁","I don't know how people say the moon is the most beautiful, I don't think so, because they haven't seen you yet... 🌙✨","You always know how to adapt yourself to every situation, and that is your biggest victory. Once again happy birthday to you, I don't have words to describe you... so sorry. Always yours, Akshu ❤️"];
+let w=0;function startWishes(){w=0;showScreen('pages');uw()}function uw(){document.getElementById('pNo').innerText="PAGE "+String(w+1).padStart(2,'0')+" / "+String(wishes.length).padStart(2,'0');document.getElementById('pageMsg').innerText=wishes[w]}function nextWish(){w++;if(w>=wishes.length){showScreen('question');return}uw()}
+setInterval(()=>{const h=document.createElement('div');h.className='floatHeart';h.innerText=['♡','✦','☁️'][Math.floor(Math.random()*3)];h.style.left=Math.random()*100+'vw';h.style.animationDuration=(6+Math.random()*5)+'s';h.style.fontSize=(12+Math.random()*14)+'px';h.style.color='#ffb7d0';document.body.appendChild(h);setTimeout(()=>h.remove(),11000);},750);
+function launchConfetti(){const c=document.getElementById('confetti');const ctx=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const p=[];for(let i=0;i<140;i++)p.push({x:innerWidth/2,y:innerHeight/3,r:Math.random()*6+4,dx:(Math.random()-0.5)*12,dy:Math.random()*-12-2,col:`hsl(${315+Math.random()*45},100%,74%)`,rot:Math.random()*360});let f=0;(function anim(){ctx.clearRect(0,0,c.width,c.height);p.forEach(o=>{o.x+=o.dx;o.y+=o.dy;o.dy+=0.18;o.rot+=4;ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.rot*Math.PI/180);ctx.fillStyle=o.col;ctx.fillRect(-o.r/2,-o.r/2,o.r,o.r);ctx.restore()});f++;if(f<200)requestAnimationFrame(anim);else ctx.clearRect(0,0,c.width,c.height)})();}
+function launchConfetti(){const c=document.getElementById('confetti');const ctx=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const p=[];for(let i=0;i<140;i++){p.push({x:innerWidth/2,y:innerHeight/3,r:Math.random()*6+4,dx:(Math.random()-0.5)*12,dy:Math.random()*-12-2,col:`hsl(${315+Math.random()*45},100%,74%)`,rot:Math.random()*360});}let f=0;(function anim(){ctx.clearRect(0,0,c.width,c.height);p.forEach(o=>{o.x+=o.dx;o.y+=o.dy;o.dy+=0.18;o.rot+=4;ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.rot*Math.PI/180);ctx.fillStyle=o.col;ctx.fillRect(-o.r/2,-o.r/2,o.r,o.r);ctx.restore()});f++;if(f<200)requestAnimationFrame(anim);else ctx.clearRect(0,0,c.width,c.height)})();}
+function makeAWishBlast(){launchConfetti(); for(let i=0;i<100;i++){const d=document.createElement('div');d.style.position='fixed';d.style.left=Math.random()*100+'vw';d.style.top='-10px';d.style.width='10px';d.style.height='14px';d.style.background=['#b14aff','#ff7ad1','#ffd86b','#7affff'][Math.floor(Math.random()*4)];d.style.zIndex=9999;d.style.borderRadius='2px';document.body.appendChild(d);let an=d.animate([{transform:'translateY(0) rotate(0deg)'},{transform:'translateY(110vh) rotate(700deg)'}],{duration:1600+Math.random()*1200});an.onfinish=()=>d.remove()} }
+function openSurprise(){showScreen('surprise');launchConfetti();const t="Happy Birthday, Miss 🌷";let i=0;const el=document.getElementById('typed');el.innerText='';const iv=setInterval(()=>{if(i<t.length){el.innerText+=t.charAt(i);i++}else{clearInterval(iv)}},90)}
+function claimGift(){makeAWishBlast(); setTimeout(()=>{alert("Yayy! Forever Bond Unlocked 💜🥺 — I love you forever!"); showScreen('surprise');},600);}
 
-  <!-- BIRTHDAY -->
-  <div id="birthday" class="screen">
-    <div class="card-box">
-      <div class="bSmall">TODAY IS ALL ABOUT YOU</div>
-      <div class="bBig cursive">Happy Birthday</div>
-      <div class="bSub cursive" style="font-size: 2rem; color: #aa6c5b;">♡</div>
-    </div>
-  </div>
-
-  <!-- GALLERY -->
-  <div id="gallery" class="screen">
-    <div style="font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 15px; color: #7a5c48;">♥ YOUR MEMORIES ♥</div>
-    <div class="polaroid">
-      <img id="photo" src="" alt="Memory">
-      <div class="photoText cursive" id="photoCaption">a moment...</div>
-    </div>
-  </div>
-
-  <!-- DIARY -->
-  <div id="diary" class="screen">
-    <div class="card-box" id="book" style="cursor: pointer;">
-      <h2 class="cursive" style="font-size: 2.5rem; color: #7a5c48; margin-bottom: 10px;">A little letter for you ♥</h2>
-      <div class="letter-preview">
-        <div style="font-size: 3rem;">✉️</div>
-      </div>
-      <div class="btn" style="margin-top: 20px;">OPEN MY LETTER →</div>
-    </div>
-  </div>
-
-  <!-- MESSAGE PAGES -->
-  <div id="pages" class="screen">
-    <div class="card-box">
-      <!-- PAGE 01 -->
-      <div class="page active">
-        <div class="pageNumber">01 / 07</div>
-        <div class="pageText">
-          Happiest Birthday to the one and only favourite person in my life. ❤️✨
-        </div>
-        <div class="next">TAP TO CONTINUE →</div>
-      </div>
-
-      <!-- PAGE 02 -->
-      <div class="page">
-        <div class="pageNumber">02 / 07</div>
-        <div class="pageText">
-          You deserve every happiness in this world.
-          <br><br>
-          And I'm not saying that just because it's your birthday...
-          <br><br>
-          I'm saying it because <b>you truly deserve it.</b> 🫶🏻🤍
-          <br><br>
-          And I'll pray that everything you've ever wished for, everything you've ever thought about and hoped for, finds its way to you. ✨
-        </div>
-        <div class="next">TAP TO CONTINUE →</div>
-      </div>
-
-      <!-- PAGE 03 -->
-      <div class="page">
-        <div class="pageNumber">03 / 07</div>
-        <div class="pageText">
-          Even when you're not beside me, somehow, through your words, you make me feel like you are.
-          <br><br>
-          You have filled my life with so much happiness without even realizing it.
-          <br><br>
-          Your support, your positive words, and the way you always manage to make me feel better...
-          <br><br>
-          They still surprise me every time. 🥺❤️
-          <br><br>
-          Wishing you a day filled with love, laughter, and happiness. ✨
-        </div>
-        <div class="next">TAP TO CONTINUE →</div>
-      </div>
-
-      <!-- PAGE 04 -->
-      <div class="page">
-        <div class="pageNumber">04 / 07</div>
-        <div class="pageText">
-          And today, I want to thank God for one thing...
-          <br><br>
-          <b>for sending you into this world.</b> ❤️
-          <br><br>
-          Just like Krishna feels incomplete without Radha, sometimes I feel like this world would be incomplete without you.
-          <br><br>
-          Thank you for coming into my life.
-        </div>
-        <div class="next">TAP TO CONTINUE →</div>
-      </div>
-
-      <!-- PAGE 05 -->
-      <div class="page">
-        <div class="pageNumber">05 / 07</div>
-        <div class="pageText">
-          I'm sorry that I couldn't get you a gift...
-          <br><br>
-          But someday, I promise I'll give you a gift that you'll never forget.
-          <br><br>
-          And I don't know how people say that the moon is the most beautiful thing in the world...
-          <br><br>
-          <b>I don't really believe that.</b>
-          <br><br>
-          Because how could they? <b>They haven't seen you yet.</b> 🌙❤️
-        </div>
-        <div class="next">TAP TO CONTINUE →</div>
-      </div>
-
-      <!-- PAGE 06 -->
-      <div class="page">
-        <div class="pageNumber">06 / 07</div>
-        <div class="pageText">
-          Maybe if they had, they would understand what I mean.
-          <br><br>
-          You have this beautiful ability to adapt yourself to every situation.
-          <br><br>
-          No matter what life puts in front of you, you somehow find a way to keep going.
-          <br><br>
-          <b>I think that's one of your greatest victories.</b> 🤍
-        </div>
-        <div class="next">TAP TO CONTINUE →</div>
-      </div>
-
-      <!-- PAGE 07 -->
-      <div class="page">
-        <div class="pageNumber">07 / 07</div>
-        <div class="pageText">
-          Once again... <b>Happy Birthday to you. ❤️</b>
-          <br><br>
-          I honestly don't have enough words to describe you.
-          <br><br>
-          I'm sorry if words could never completely explain what you mean to me.
-          <br><br>
-          But I hope, somehow, you can <b>feel it.</b> ❤️
-        </div>
-        <div class="next">TAP TO CONTINUE →</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GIFT -->
-  <div id="giftPage" class="screen">
-    <div class="card-box">
-      <div style="font-size: 0.85rem; letter-spacing: 2px; color: #7a5c48;">ONE LAST THING...</div>
-      <div class="gift" id="gift">🎁</div>
-      <div class="btn" id="giftText">OPEN YOUR GIFT →</div>
-    </div>
-  </div>
-
-  <!-- FINAL -->
-  <div id="final" class="screen">
-    <div class="card-box" style="background: #4a3629; color: #f4ede4;">
-      <div class="glow-heart"><span>♥</span></div>
-      <h2 class="cursive" style="font-size: 2.5rem; color: #fff; margin-top: 15px;">Thank you</h2>
-      <p style="font-size: 0.95rem; margin-top: 10px; opacity: 0.9;">for being you. You make everything more beautiful. ✨</p>
-      <div class="cursive" style="margin-top: 25px; font-size: 1.5rem; color: #e2b4a3;">- always yours</div>
-    </div>
-  </div>
-
-  <script>
-    const music = document.getElementById("music");
-    const start = document.getElementById("start");
-    const startButton = document.getElementById("startButton");
-    const heartTarget = document.getElementById("heartTarget");
-    const arrow = document.getElementById("arrow");
-    const countdown = document.getElementById("countdown");
-    const countNum = document.getElementById("countNum");
-    const birthday = document.getElementById("birthday");
-    const gallery = document.getElementById("gallery");
-    const photo = document.getElementById("photo");
-    const photoCaption = document.getElementById("photoCaption");
-    const diary = document.getElementById("diary");
-    const book = document.getElementById("book");
-    const pages = document.getElementById("pages");
-    const giftPage = document.getElementById("giftPage");
-    const gift = document.getElementById("gift");
-    const giftText = document.getElementById("giftText");
-    const final = document.getElementById("final");
-
-    /* START ANIMATION */
-    startButton.addEventListener("click", () => {
-      try { music.volume = 0.65; music.play(); } catch(e) {}
-      arrow.classList.add("arrowGo");
-      setTimeout(() => heartTarget.classList.add("heartHit"), 1500);
-      setTimeout(() => {
-        start.style.display = "none";
-        countdown.style.display = "flex";
-        startCountdown();
-      }, 2800);
-    });
-
-    /* COUNTDOWN */
-    function startCountdown() {
-      let num = 3;
-      countNum.textContent = num;
-      const timer = setInterval(() => {
-        num--;
-        if (num > 0) {
-          countNum.textContent = num;
-        } else {
-          clearInterval(timer);
-          countdown.style.display = "none";
-          birthday.style.display = "flex";
-          setTimeout(() => {
-            birthday.style.display = "none";
-            startGallery();
-          }, 3500);
-        }
-      }, 1000);
-    }
-
-    /* SPARKS */
-    function makeSparks() {
-      for (let i = 0; i < 15; i++) {
-        const s = document.createElement("div");
-        s.className = "spark";
-        s.style.setProperty("--x", (Math.random() * 200 - 100) + "px");
-        s.style.setProperty("--y", (Math.random() * 200 - 100) + "px");
-        document.body.appendChild(s);
-        setTimeout(() => s.classList.add("sparkGo"), i * 30);
-        setTimeout(() => s.remove(), 1500);
-      }
-    }
-
-    /* GALLERY */
-    const captions = ["a moment...", "a memory...", "a feeling...", "a story...", "...you ♥"];
-    const photos = Array.from({length: 22}, (_, i) => `photo${i + 1}.jpg`);
-    let currentPhoto = 0;
-
-    function startGallery() {
-      gallery.style.display = "flex";
-      showPhoto();
-    }
-
-    function showPhoto() {
-      if (currentPhoto >= photos.length) {
-        gallery.style.display = "none";
-        diary.style.display = "flex";
-        return;
-      }
-      photo.src = photos[currentPhoto];
-      photoCaption.textContent = captions[currentPhoto % captions.length];
-      makeSparks();
-      currentPhoto++;
-      setTimeout(showPhoto, 3800);
-    }
-
-    /* DIARY TO PAGES */
-    book.addEventListener("click", () => {
-      diary.style.display = "none";
-      pages.style.display = "flex";
-    });
-
-    /* PAGES SLIDER */
-    const pageElements = document.querySelectorAll(".page");
-    let pageIndex = 0;
-
-    pageElements.forEach((page, index) => {
-      const next = page.querySelector(".next");
-      next.addEventListener("click", () => {
-        if (index !== pageIndex) return;
-        page.classList.remove("active");
-        pageIndex++;
-        if (pageIndex < pageElements.length) {
-          pageElements[pageIndex].classList.add("active");
-        } else {
-          pages.style.display = "none";
-          giftPage.style.display = "flex";
-        }
-      });
-    });
-
-    /* GIFT TO FINAL */
-    gift.addEventListener("click", () => {
-      giftText.textContent = "Opening... ❤️";
-      makeSparks();
-      setTimeout(() => {
-        giftPage.style.display = "none";
-        final.style.display = "flex";
-      }, 1300);
-    });
-  </script>
+let scratchCtx, isDrawing=false;
+function initScratch(){const canvas=document.getElementById('scratchCanvas'); if(!canvas) return;scratchCtx=canvas.getContext('2d');scratchCtx.globalCompositeOperation='source-over';scratchCtx.fillStyle='#8a5bd6'; scratchCtx.fillRect(0,0,canvas.width,canvas.height);scratchCtx.fillStyle='rgba(255,255,255,0.18)'; for(let i=0;i<70;i++) scratchCtx.fillRect(Math.random()*canvas.width,Math.random()*canvas.height,2,22);scratchCtx.fillStyle='rgba(255,255,255,0.6)'; scratchCtx.font='bold 13px Poppins'; scratchCtx.fillText('SCRATCH HERE ✨',95,150);scratchCtx.globalCompositeOperation='destination-out';const scratch=(e)=>{ if(!isDrawing) return; const r=canvas.getBoundingClientRect(); const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; const y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; scratchCtx.beginPath(); scratchCtx.arc(x/r.width*canvas.width, y/r.height*canvas.height, 26,0,Math.PI*2); scratchCtx.fill(); try{const data=scratchCtx.getImageData(0,0,canvas.width,canvas.height).data; let t=0; for(let i=3;i<data.length;i+=4) if(data[i]===0) t++; let pct=Math.round(t/(canvas.width*canvas.height)*100); const el=document.getElementById('scratchPct'); if(el) el.textContent=pct+'% scratched'; if(pct>50){ const b=document.getElementById('claimBtn'); if(b) b.style.display='block'; }}catch(e){} };canvas.onmousedown=()=>isDrawing=true; canvas.onmouseup=()=>isDrawing=false; canvas.onmousemove=scratch;canvas.ontouchstart=()=>isDrawing=true; canvas.ontouchend=()=>isDrawing=false; canvas.ontouchmove=(e)=>{scratch(e); e.preventDefault();};}
+let pressTimer; const secretMsg="If someone asks me what is beautiful, I'll just show them you ♡\n\nI never want to lose you, at any cost.";
+const pol=document.getElementById('polaroidBox');if(pol){pol.addEventListener('touchstart',()=>{pressTimer=setTimeout(()=>alert(secretMsg),750)},{passive:true});pol.addEventListener('touchend',()=>clearTimeout(pressTimer));pol.addEventListener('mousedown',()=>{pressTimer=setTimeout(()=>alert(secretMsg),750)});pol.addEventListener('mouseup',()=>clearTimeout(pressTimer));pol.addEventListener('mouseleave',()=>clearTimeout(pressTimer));}
+</script>
 </body>
 </html>
